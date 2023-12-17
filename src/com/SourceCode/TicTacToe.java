@@ -12,7 +12,7 @@ public class TicTacToe {
     private void setPlayers() {
         Scanner input = new Scanner(System.in);
         System.out.println("Select a mode: ");
-        System.out.println("1. Player-1 vs Player-2 \n2. Player vs Computer");
+        System.out.println("1. Player_1 vs Player_2 \n2. Player vs Computer");
         int choice;
         while(true) {
             try {
@@ -28,7 +28,7 @@ public class TicTacToe {
         }
         System.out.println();
         if(choice == 1) {
-            player[0] = "Player-1"; player[1] = "Player-2";
+            player[0] = "Player_1"; player[1] = "Player_2";
             sign[0] = 'x'; sign[1] = 'o';
         } else {
             player[0] = "Player"; player[1] = "Computer";

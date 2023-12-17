@@ -7,19 +7,23 @@ class Printer {
     private void printWithAnsi(char content, boolean in_line, boolean last_print) {
         String blue_bold_bright = "\u001B[1;96m";
         String red_bold_bright = "\u001B[1;91m";
+        String black_bright = "\u001B[0;90m";
         String reset_ansi = "\u001B[0m";
         if(content == '\u0000') // default char value
             System.out.print("   ");
-        else if(((!in_line) && last_print) || (content != 'x' && content != 'o'))
-            System.out.print(" " + content + " ");
+        else if((!in_line) && last_print)
+            System.out.print(black_bright + " " + content + " " + reset_ansi);
         else if (content == 'x')
             System.out.print(blue_bold_bright + " " + content + " " + reset_ansi);
-        else // i.e. if(content == 'o')
+        else if(content == 'o')
             System.out.print(red_bold_bright + " " + content + " " + reset_ansi);
+        else
+            System.out.print(" " + content + " ");
     }
     public void printGrid(int view_location) {
         char[][] view = view_location == 1 ? location : symbol_to_print;
         for (int i = 0; i < max; i++) {
+            System.out.print("\n   ");
             for (int j = 0; j < max; j++) {
                 switch(view[i][j]) {
                     case ' ':
@@ -39,12 +43,13 @@ class Printer {
                     System.out.print("|");
             }
             if(i<2)
-                System.out.print("\n- - - - - -\n");
+                System.out.print("\n   - - - - - -");
         }
         System.out.println();
     }
     public void printFinalGrid(String line, int idx_i, int idx_j) {
         for(int i=0; i<max; i++) {
+            System.out.print("\n   ");
             for(int j=0; j<max; j++) {
                 switch(line) {
                     case "horizontal":
@@ -64,12 +69,13 @@ class Printer {
                     System.out.print("|");
             }
             if(i<2)
-                System.out.print("\n- - - - - -\n");
+                System.out.print("\n   - - - - - -");
         }
         System.out.println();
     }
     public void printFinalGrid(String line1, String line2, int idx_i, int idx_j) {
         for(int i=0; i<max; i++) {
+            System.out.print("\n   ");
             for(int j=0; j<max; j++) {
                 switch(line1) {
                     case "horizontal":
@@ -102,7 +108,7 @@ class Printer {
                     System.out.print("|");
             }
             if(i<2)
-                System.out.print("\n- - - - - -\n");
+                System.out.print("\n   - - - - - -");
         }
         System.out.println();
     }
