@@ -22,10 +22,18 @@ class Printer {
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
                 switch(view[i][j]) {
-                    case ' '-> printWithAnsi(' ', false, false);
-                    case 'x'-> printWithAnsi('x', false, false);
-                    case 'o'-> printWithAnsi('o', false, false);
-                    default -> printWithAnsi(view[i][j], false, false);
+                    case ' ':
+                        printWithAnsi(' ', false, false);
+                        break;
+                    case 'x':
+                        printWithAnsi('x', false, false);
+                        break;
+                    case 'o':
+                        printWithAnsi('o', false, false);
+                        break;
+                    default :
+                        printWithAnsi(view[i][j], false, false);
+                        break;
                 }
                 if(j<2)
                     System.out.print("|");
@@ -39,10 +47,18 @@ class Printer {
         for(int i=0; i<max; i++) {
             for(int j=0; j<max; j++) {
                 switch(line) {
-                    case "horizontal"-> printWithAnsi(symbol_to_print[i][j], i == idx_i, true);
-                    case "vertical"-> printWithAnsi(symbol_to_print[i][j], j == idx_j, true);
-                    case "diagonal_lr"-> printWithAnsi(symbol_to_print[i][j], i == j, true);
-                    case "diagonal_rl"-> printWithAnsi(symbol_to_print[i][j], i + j == 2, true);
+                    case "horizontal":
+                        printWithAnsi(symbol_to_print[i][j], i == idx_i, true);
+                        break;
+                    case "vertical":
+                        printWithAnsi(symbol_to_print[i][j], j == idx_j, true);
+                        break;
+                    case "diagonal_lr":
+                        printWithAnsi(symbol_to_print[i][j], i == j, true);
+                        break;
+                    case "diagonal_rl":
+                        printWithAnsi(symbol_to_print[i][j], i + j == 2, true);
+                        break;
                 }
                 if(j<2)
                     System.out.print("|");
@@ -56,14 +72,20 @@ class Printer {
         for(int i=0; i<max; i++) {
             for(int j=0; j<max; j++) {
                 switch(line1) {
-                    case "horizontal"-> {
+                    case "horizontal":
                         switch (line2) {
-                            case "vertical" -> printWithAnsi(symbol_to_print[i][j], i == idx_i || j == idx_j, true);
-                            case "diagonal_lr" -> printWithAnsi(symbol_to_print[i][j], i == idx_i || i == j, true);
-                            case "diagonal_rl" -> printWithAnsi(symbol_to_print[i][j], i == idx_i || i + j == 2, true);
+                            case "vertical":
+                                printWithAnsi(symbol_to_print[i][j], i == idx_i || j == idx_j, true);
+                                break;
+                            case "diagonal_lr":
+                                printWithAnsi(symbol_to_print[i][j], i == idx_i || i == j, true);
+                                break;
+                            case "diagonal_rl":
+                                printWithAnsi(symbol_to_print[i][j], i == idx_i || i + j == 2, true);
+                                break;
                         }
-                    }
-                    case "vertical"-> {
+                        break;
+                    case "vertical":
                         switch (line2) {
                             case "diagonal_lr":
                                 printWithAnsi(symbol_to_print[i][j], j == idx_j || i == j, true);
@@ -72,12 +94,9 @@ class Printer {
                                 printWithAnsi(symbol_to_print[i][j], j == idx_j || i + j == 2, true);
                                 break;
                         }
-                    }
-                    case "diagonal_lr"-> {
-                        if (line2.equals("diagonal_rl")) {
+                    case "diagonal_lr":
+                        if (line2.equals("diagonal_rl"))
                             printWithAnsi(symbol_to_print[i][j], i == j || i + j == 2, true);
-                        }
-                    }
                 }
                 if(j<2)
                     System.out.print("|");
