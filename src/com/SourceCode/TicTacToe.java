@@ -107,11 +107,19 @@ public class TicTacToe {
                         match[i] = match[i] && (symbol[j][idx_j] == symbol[j+1][idx_j]);
                 } break;
                 case 2: {
+                    if(idx_i - idx_j != 0) {
+                        match[i] = false;
+                        break;
+                    }
                     match[i] = match[i] && (symbol[1][1] != '\u0000');
                     for(int j=0; j<max-1; j++)
                         match[i] = match[i] && (symbol[j][j] == symbol[j+1][j+1]);
                 } break;
                 case 3: {
+                    if(idx_i + idx_j != 2) {
+                        match[i] = false;
+                        break;
+                    }
                     match[i] = match[i] && (symbol[1][1] != '\u0000');
                     for(int j=0; j<max-1; j++)
                         match[i] = match[i] && (symbol[j][(max-1)-j] == symbol[j+1][((max-1)-j)-1]);
