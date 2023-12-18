@@ -2,7 +2,6 @@ package com.SourceCode;
 
 class Printer {
     private final int max = 3;
-    private final char[][] location = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
     char[][] symbol_to_print = new char[max][max];
     private void printWithAnsi(char content, boolean in_line, boolean last_print) {
         String blue_bold_bright = "\u001B[1;96m";
@@ -21,24 +20,12 @@ class Printer {
             System.out.print(" " + content + " ");
     }
     public void printGrid(int view_location) {
+        char[][] location = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
         char[][] view = view_location == 1 ? location : symbol_to_print;
         for (int i = 0; i < max; i++) {
             System.out.print("\n   ");
             for (int j = 0; j < max; j++) {
-                switch(view[i][j]) {
-                    case ' ':
-                        printWithAnsi(' ', false, false);
-                        break;
-                    case 'x':
-                        printWithAnsi('x', false, false);
-                        break;
-                    case 'o':
-                        printWithAnsi('o', false, false);
-                        break;
-                    default :
-                        printWithAnsi(view[i][j], false, false);
-                        break;
-                }
+                printWithAnsi(view[i][j], false, false);
                 if(j<2)
                     System.out.print("|");
             }
@@ -48,23 +35,30 @@ class Printer {
         System.out.println();
     }
     public void printFinalGrid(String line, int idx_i, int idx_j) {
+        String[] lines = {"horizontal", "vertical", "diagonal_lr", "diagonal_rl"};
+        int[] diff_inlines = {1, 3, 4, 2};
+        int difference = 0;
+        for(int i=0; i<lines.length; i++) {
+            if(lines[i].equals(line)) {
+                difference = diff_inlines[i];
+                break;
+            }
+        }
+        int location = (idx_i * max) + idx_j, new_location;
         for(int i=0; i<max; i++) {
             System.out.print("\n   ");
             for(int j=0; j<max; j++) {
-                switch(line) {
-                    case "horizontal":
-                        printWithAnsi(symbol_to_print[i][j], i == idx_i, true);
-                        break;
-                    case "vertical":
-                        printWithAnsi(symbol_to_print[i][j], j == idx_j, true);
-                        break;
-                    case "diagonal_lr":
-                        printWithAnsi(symbol_to_print[i][j], i == j, true);
-                        break;
-                    case "diagonal_rl":
-                        printWithAnsi(symbol_to_print[i][j], i + j == 2, true);
-                        break;
-                }
+                new_location = (i * max) + j;
+                boolean condition = ((new_location - location) % difference) == 0;
+                // due to multiple occurrence of same difference,
+                // so we have to go for another fixed condition for horizontal and diagonal_rl lines
+                if(difference == 1) // horizontal -> row is fixed
+                    condition = condition && (i == idx_i);
+                else if(difference == 2) // diagonal_rl -> row + column = 2
+                    condition = condition && (i + j == 2);
+                printWithAnsi(symbol_to_print[i][j], condition, true);
+                if(condition)
+                    location = new_location;
                 if(j<2)
                     System.out.print("|");
             }
@@ -74,36 +68,24 @@ class Printer {
         System.out.println();
     }
     public void printFinalGrid(String line1, String line2, int idx_i, int idx_j) {
+        String[] lines = {"horizontal", "vertical", "diagonal_lr", "diagonal_rl"};
+        int[] diff_inlines = {1, 3, 4, 2};
+        int location = (idx_i * max) + idx_j;
+        int difference1 = 0, difference2 = 0;
+        for(int i=0; i<max; i++) {
+            if(lines[i].equals(line1))
+                difference1 = diff_inlines[i];
+            else if(lines[i].equals(line2))
+                difference2 = diff_inlines[i];
+            if(difference1 != 0 && difference2 != 0)
+                break;
+        }
         for(int i=0; i<max; i++) {
             System.out.print("\n   ");
-            for(int j=0; j<max; j++) {
-                switch(line1) {
-                    case "horizontal":
-                        switch (line2) {
-                            case "vertical":
-                                printWithAnsi(symbol_to_print[i][j], i == idx_i || j == idx_j, true);
-                                break;
-                            case "diagonal_lr":
-                                printWithAnsi(symbol_to_print[i][j], i == idx_i || i == j, true);
-                                break;
-                            case "diagonal_rl":
-                                printWithAnsi(symbol_to_print[i][j], i == idx_i || i + j == 2, true);
-                                break;
-                        }
-                        break;
-                    case "vertical":
-                        switch (line2) {
-                            case "diagonal_lr":
-                                printWithAnsi(symbol_to_print[i][j], j == idx_j || i == j, true);
-                                break;
-                            case "diagonal_rl":
-                                printWithAnsi(symbol_to_print[i][j], j == idx_j || i + j == 2, true);
-                                break;
-                        }
-                    case "diagonal_lr":
-                        if (line2.equals("diagonal_rl"))
-                            printWithAnsi(symbol_to_print[i][j], i == j || i + j == 2, true);
-                }
+            for (int j = 0; j < max; j++) {
+                boolean condition1 = (((i * max) + j) - location) % difference1 == 0;
+                boolean condition2 = (((i * max) + j) - location) % difference2 == 0;
+                printWithAnsi(symbol_to_print[i][j], condition1 || condition2, true);
                 if(j<2)
                     System.out.print("|");
             }

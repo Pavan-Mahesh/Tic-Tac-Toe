@@ -95,10 +95,29 @@ public class TicTacToe {
         print.symbol_to_print = symbol;
         String[] won_by = {"horizontal", "vertical", "diagonal_lr", "diagonal_rl"};
         boolean[] match = new boolean[won_by.length];
-        match[0] = (symbol[idx_i][0] == symbol[idx_i][1]) && (symbol[idx_i][0] == symbol[idx_i][2]);
-        match[1] = (symbol[0][idx_j] == symbol[1][idx_j]) && (symbol[0][idx_j] == symbol[2][idx_j]);
-        match[2] = (symbol[1][1] != '\u0000') && (symbol[0][0] == symbol[1][1]) && (symbol[0][0] == symbol[2][2]);
-        match[3] = (symbol[1][1] != '\u0000') && (symbol[0][2] == symbol[1][1]) && (symbol[0][2] == symbol[2][0]);
+        for(int i=0; i< won_by.length; i++) {
+            match[i] = true;
+            switch(i) {
+                case 0: {
+                    for(int j=0; j<max-1; j++)
+                        match[i] = match[i] && (symbol[idx_i][j] == symbol[idx_i][j+1]);
+                } break;
+                case 1: {
+                    for(int j=0; j<max-1; j++)
+                        match[i] = match[i] && (symbol[j][idx_j] == symbol[j+1][idx_j]);
+                } break;
+                case 2: {
+                    match[i] = match[i] && (symbol[1][1] != '\u0000');
+                    for(int j=0; j<max-1; j++)
+                        match[i] = match[i] && (symbol[j][j] == symbol[j+1][j+1]);
+                } break;
+                case 3: {
+                    match[i] = match[i] && (symbol[1][1] != '\u0000');
+                    for(int j=0; j<max-1; j++)
+                        match[i] = match[i] && (symbol[j][(max-1)-j] == symbol[j+1][((max-1)-j)-1]);
+                } break;
+            }
+        }
         for(int i=0; i<match.length-1; i++) {
             for(int j=i+1; j<match.length; j++) {
                 if(match[i] && match[j]) {
