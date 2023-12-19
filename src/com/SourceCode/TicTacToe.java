@@ -30,7 +30,7 @@ public class TicTacToe {
             break;
         }
         symbol[idx_i][idx_j] = sign;
-        if(chance >= max)
+        if(chance >= 5)
             return evaluate(player, idx_i, idx_j);
         else {
             print.symbol_to_print = symbol;
