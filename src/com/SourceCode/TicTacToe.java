@@ -6,59 +6,7 @@ import java.util.Scanner;
 public class TicTacToe {
     private final int max = 3;
     private final char[][] symbol = new char[max][max];
-    private final String[] player = new String[2];
-    private final char[] sign = new char[2];
     private int chance = 0;
-    private void setPlayers() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Select a mode: ");
-        System.out.println("1. Player_1 vs Player_2 \n2. Player vs Computer");
-        int choice;
-        while(true) {
-            try {
-                System.out.print("Choice: ");
-                choice = input.nextInt();
-                if (choice < 1 || choice > 2)
-                    throw new NoSuchElementException();
-                break;
-            } catch (Exception e) {
-                System.out.println("Invalid choice, try again...");
-                input.nextLine();
-            }
-        }
-        System.out.println();
-        if(choice == 1) {
-            player[0] = "Player_1"; player[1] = "Player_2";
-            sign[0] = 'x'; sign[1] = 'o';
-        } else {
-            player[0] = "Player"; player[1] = "Computer";
-            setSign();
-        }
-    }
-    private void setSign() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Select your sign: ");
-        System.out.println("1. X \n2. O");
-        int choice;
-        while(true) {
-            try {
-                System.out.print("Choice: ");
-                choice = input.nextInt();
-                if (choice < 1 || choice > 2)
-                    throw new NoSuchElementException();
-                break;
-            } catch (Exception e) {
-                System.out.println("Invalid choice, try again...");
-                input.nextLine();
-            }
-        }
-        System.out.println();
-        if(choice == 1) {
-            sign[0] = 'x'; sign[1] = 'o';
-        } else {
-            sign[0] = 'o'; sign[1] = 'x';
-        }
-    }
     private boolean takeLocationFromPlayer(String player, char sign) {
         Printer print = new Printer();
         Scanner input = new Scanner(System.in);
@@ -147,7 +95,6 @@ public class TicTacToe {
     }
     public void startGame() {
         if(chance == 0) {
-            setPlayers();
             Printer print = new Printer();
             System.out.println("Grid location: ");
             print.printGrid(1);
@@ -155,6 +102,8 @@ public class TicTacToe {
             startGame();
         } else {
             boolean result;
+            String[] player = {"Player - 1", "Player - 2"};
+            char[] sign = {'x', 'o'};
             while(chance <= 9) {
                 result = takeLocationFromPlayer(player[(chance-1) % 2], sign[(chance-1) % 2]);
                 if(result) break;
