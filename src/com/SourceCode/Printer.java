@@ -51,7 +51,7 @@ class Printer {
                 new_location = (i * max) + j;
                 boolean condition = ((new_location - location) % difference) == 0;
                 // due to multiple occurrence of same difference,
-                // so we have to go for another fixed condition for horizontal and diagonal_rl lines
+                // we have to go for another fixed condition for horizontal and diagonal_rl lines
                 if(difference == 1) // horizontal -> row is fixed
                     condition = condition && (i == idx_i);
                 else if(difference == 2) // diagonal_rl -> row + column = 2
